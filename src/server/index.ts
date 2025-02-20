@@ -1,15 +1,12 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import routes from "../routes/userRoutes";
-import ClientDB from "../database/ClientDB";
-import redisRouter from "../routes/redisRouter";
+import routes from "../routes/userRoutes";;
 
 //env variables
 dotenv.config();
 
 const app = express();
-ClientDB.connectDB();
 
 //geral configuration
 app.use(express.json());

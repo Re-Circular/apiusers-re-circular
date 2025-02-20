@@ -1,8 +1,5 @@
-import { User } from "@prisma/client";
-import IUser from "../model/interface/IUser";
 import client from "../prisma/client";
 import UserDTO from "../model/dto/UserDTO";
-import DataBaseException from "../model/exceptions/DataBaseException";
 import UserNotFoundException from "../model/exceptions/UserNotFoundException";
 
 export default class UserRepository {
