@@ -13,6 +13,11 @@ export default class UserControll {
 
         try {
             const { name, email, password } = request.body as {name: string, email: string, password: string};
+            //pegando a imagem passada
+            const imagePath = request.file;
+
+            console.log(imagePath);
+
             const userDTO = new UserDTO(name, email, password);
             
             const result = await this.userService.save(userDTO);
