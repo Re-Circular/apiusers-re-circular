@@ -36,7 +36,7 @@ export default class Authenticate {
             process.env.PARCIAL_SECRET as string,
             //options
             {
-                expiresIn: 30
+                expiresIn: "30m"
             }
         );
 
@@ -47,15 +47,19 @@ export default class Authenticate {
         const SECOND_ELEMENT = 1;
 
         if (!authorization) {
+            console.log("ERRRRRR")
             throw new AcessDaniedException();
         }
 
         const token = authorization.split(" ")[SECOND_ELEMENT];
 
+        console.log(token);
+
         try {
             const { userEmail } = verify(token, process.env.PARCIAL_SECRET as string) as IPayload;
             return userEmail;
         } catch(err) {
+            console.log("VERIFY")
             throw new AcessDaniedException();
         }
     }

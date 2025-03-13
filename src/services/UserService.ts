@@ -1,3 +1,4 @@
+import UpdateUserDTO from "../model/dto/UpdateUserDTO";
 import UserDTO from "../model/dto/UserDTO";
 import DataBaseException from "../model/exceptions/DataBaseException";
 import GenericException from "../model/exceptions/GenericException";
@@ -37,6 +38,28 @@ export default class UserService {
             const userDto = new UserDTO(response.name as string, response.email as string, response.password as string);
 
             return userDto.getData();
+        } catch(error) {
+            const asError = error as Error;
+
+            throw new DataBaseException(asError.message);
+        }
+    }
+
+    public removeByEmail = async (email: string) => {
+        try {
+            const response = await this.userRepository.removeByEmail(email);
+            return response;
+        } catch (error) {
+            const asError = error as Error;
+
+            throw new DataBaseException(asError.message);
+        }
+    } 
+
+    public updateByEmail = async(email: string, userToUpdate: UpdateUserDTO) => {
+        try {
+            const userUpdated = await this.userRepository.updateByEmail(email, userToUpdate);
+            return userToUpdate;
         } catch(error) {
             const asError = error as Error;
 

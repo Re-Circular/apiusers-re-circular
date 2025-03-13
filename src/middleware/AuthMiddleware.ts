@@ -10,6 +10,8 @@ export default class AuthMiddleware {
     public validateJWT = (request: Request, response: Response, next: NextFunction) => {
         const { authorization } = request.headers;
 
+        console.log(authorization);
+
         try {
             const result = this.auth.validateJWT(authorization as string);            
             next();

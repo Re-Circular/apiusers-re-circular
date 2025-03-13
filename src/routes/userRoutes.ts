@@ -21,5 +21,7 @@ routes.post('/save', upload.single('image'), controller.save, error.handleError)
 //endpoint com autenticacao e tratamento de errros (ambos middlewares)
 routes.get('/find/:email', auth.validateJWT, controller.findByEmail, error.handleError);
 routes.post('/auth', controller.authUser, error.handleError);
+routes.delete('/remove/:email', auth.validateJWT, controller.removeByEmail, error.handleError);
+routes.patch('/update/:email', auth.validateJWT, controller.updateByEmail, error.handleError);
 
 export default routes;

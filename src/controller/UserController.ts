@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import UserService from "../services/UserService";
 import UserDTO from "../model/dto/UserDTO";
 import Authenticate from "../auth/Authenticate";
+import { error } from "console";
+import UpdateUserDTO from "../model/dto/UpdateUserDTO";
 
 export default class UserControll {
 
@@ -16,8 +18,6 @@ export default class UserControll {
             //pegando a imagem passada
             const imagePath = request.file;
 
-            console.log(imagePath);
-
             const userDTO = new UserDTO(name, email, password);
             
             const result = await this.userService.save(userDTO);
@@ -30,6 +30,8 @@ export default class UserControll {
     public findByEmail = async (request:Request, response:Response, next: NextFunction) => {
         try {
             const { email } = request.params as {email: string};
+
+            console.log(email);
 
             const result = await this.userService.findByEmail(email);
             //retorna um UserDTO com as informações principais: nome, email e senha
@@ -51,4 +53,32 @@ export default class UserControll {
             next(error);
         } 
     } 
+
+    //realiza a remoção do usuário com base no email passado
+    public removeByEmail = async (request: Request, response:Response, next:NextFunction) => {
+        try {
+            const {email} = request.params as {email: string};
+
+            const deleteResult = await this.userService.removeByEmail(email);
+            response.status(200).send(deleteResult);
+
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    //realiza a atualização de todos os atributos de um usuário (nesse caso, apenas o nome)
+    public updateByEmail = async (request: Request, response:Response, next:NextFunction) => {
+        try {
+            const { name } = request.body as { name: string };
+            const userToUpdate = new UpdateUserDTO(name);
+
+            const { email } = request.params as { email: string };
+
+            const userUpdated = await this.userService.updateByEmail(email, userToUpdate);
+            response.status(200).send(userUpdated);
+        } catch(error) {
+            next(error)
+        }
+    }
 }
